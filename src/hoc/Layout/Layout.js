@@ -22,6 +22,7 @@ class Layout extends Component {
 
     render () {
         return (
+            
             <Aux>
                 <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
                 <SideDrawer
