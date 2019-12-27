@@ -1,2 +1,1 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-Studying about React
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).\nStudying about React
