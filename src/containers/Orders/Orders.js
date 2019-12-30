@@ -10,7 +10,12 @@ class Orders extends Component {
   componentDidMount() {
     this.props.onFetchOrders();
   }
-
+  /*
+  deletedOrder = orderId => {
+    console.log("[OrderID]:", orderId);
+    this.props.onRemoveOrder(orderId);
+  };
+  */
   render() {
     let orders = <Spinner />;
     if (!this.props.loading) {
@@ -19,6 +24,7 @@ class Orders extends Component {
           key={order.id}
           ingredients={order.ingredients}
           price={order.price}
+          // deletedOrder={this.deletedOrder(order.id)}
         />
       ));
     }
@@ -35,7 +41,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchOrders: () => dispatch(actions.fetchOrders())
+    onFetchOrders: () => dispatch(actions.fetchOrders()),
+    onRemoveOrder: orderId => dispatch(actions.removeOrder(orderId))
   };
 };
 

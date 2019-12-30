@@ -80,3 +80,39 @@ export const fetchOrders = () => {
       });
   };
 };
+/*
+export const removeOrderSuccess = () => {
+  return {
+    type: actionTypes.REMOVE_ORDER_SUCCESS
+  };
+};
+
+export const removeOrderFail = error => {
+  return {
+    type: actionTypes.REMOVE_ORDER_FAIL,
+    error: error
+  };
+};
+
+export const removeOrderStart = () => {
+  return {
+    type: actionTypes.REMOVE_ORDER_START
+  };
+};
+
+export const removeOrder = orderId => {
+  return dispatch => {
+    dispatch(removeOrderStart());
+    console.log("[OrderID]:", orderId);
+    axios
+      .delete(`/orders/${orderId}.json`)
+      .then(res => {
+        console.log(res.data);
+        dispatch(removeOrderSuccess());
+      })
+      .catch(error => {
+        dispatch(removeOrderFail());
+      });
+  };
+};
+*/
