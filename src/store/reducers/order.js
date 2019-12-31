@@ -6,6 +6,10 @@ const initialState = {
   purchased: false
 };
 
+const purchaseBurgerInit = (state, action) => {
+  return updateObject(state, { purchased: false });
+};
+
 const purchaseBurgerStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
@@ -21,18 +25,20 @@ const purchaseBurgerSuccess = (state, action) => {
 const purchaseBurgerFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
-const purchaseBurgerInit = (state, action) => {
-  return updateObject(state, { purchased: false });
-};
-const fetchOrdersFail = (state, action) => {
-  return updateObject(state, { loading: false });
-};
-const fetchOrdersSuccess = (state, action) => {
-  return updateObject(state, { loading: false, orders: action.orders });
-};
+
 const fetchOrdersStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
+
+const fetchOrdersSuccess = (state, action) => {
+  return updateObject(state, { loading: false, orders: action.orders });
+};
+
+const fetchOrdersFail = (state, action) => {
+  return updateObject(state, { loading: false });
+};
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_BURGER_START:
