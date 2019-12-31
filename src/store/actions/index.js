@@ -10,4 +10,4 @@ export {
   removeOrder
 } from "./order";
 
-export { auth } from "./auth";
+export { auth, logout } from "./auth";
