@@ -10,12 +10,10 @@ class Orders extends Component {
   componentDidMount() {
     this.props.onFetchOrders(this.props.token, this.props.userId);
   }
-  /*
   deletedOrder = orderId => {
     console.log("[OrderID]:", orderId);
     this.props.onRemoveOrder(orderId);
   };
-  */
   render() {
     let orders = <Spinner />;
     if (!this.props.loading) {
@@ -24,7 +22,7 @@ class Orders extends Component {
           key={order.id}
           ingredients={order.ingredients}
           price={order.price}
-          // deletedOrder={this.deletedOrder(order.id)}
+          deletedOrder={() => this.deletedOrder(order.id)}
         />
       ));
     }

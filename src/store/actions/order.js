@@ -81,7 +81,6 @@ export const fetchOrders = (token, userId) => {
       });
   };
 };
-/*
 export const removeOrderSuccess = () => {
   return {
     type: actionTypes.REMOVE_ORDER_SUCCESS
@@ -104,16 +103,15 @@ export const removeOrderStart = () => {
 export const removeOrder = orderId => {
   return dispatch => {
     dispatch(removeOrderStart());
-    console.log("[OrderID]:", orderId);
     axios
-      .delete(`/orders/${orderId}.json`)
+      .delete(`/orders/` + orderId + ".json")
       .then(res => {
         console.log(res.data);
         dispatch(removeOrderSuccess());
+        dispatch(fetchOrders());
       })
       .catch(error => {
         dispatch(removeOrderFail());
       });
   };
 };
-*/

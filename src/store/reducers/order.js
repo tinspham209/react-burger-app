@@ -38,7 +38,6 @@ const fetchOrdersFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
 
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_BURGER_START:
@@ -60,7 +59,6 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_ORDERS_START:
       return fetchOrdersStart(state, action);
-    /*
     case actionTypes.REMOVE_ORDER_FAIL:
       return {
         ...state,
@@ -76,7 +74,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
-    */
     default:
       return state;
   }
