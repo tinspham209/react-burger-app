@@ -103,12 +103,12 @@ export const removeOrderStart = () => {
 export const removeOrder = orderId => {
   return dispatch => {
     dispatch(removeOrderStart());
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
     axios
-      .delete(`/orders/` + orderId + ".json")
+      .delete(`/orders/${orderId}.json?auth=${token}`)
       .then(res => {
-        console.log(res.data);
-        dispatch(removeOrderSuccess());
-        dispatch(fetchOrders());
+        dispatch(fetchOrders(token, userId));
       })
       .catch(error => {
         dispatch(removeOrderFail());
