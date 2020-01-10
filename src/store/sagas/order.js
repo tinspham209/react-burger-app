@@ -16,3 +16,41 @@ export function* purchaseBurgerSaga(action) {
     yield put(actions.purchaseBurgerFail(error));
   }
 }
+export function* fetchOrdersSaga(action) {
+  yield put(actions.fetchOrderStart());
+  const queryParams =
+    "?auth=" +
+    action.token +
+    '&orderBy="userId"&equalTo="' +
+    action.userId +
+    '"';
+  try {
+    const response = yield axios.get("/orders.json" + queryParams);
+    const fetchedOrders = [];
+    for (let key in response.data) {
+      fetchedOrders.push({
+        ...response.data[key],
+        id: key
+      });
+    }
+    yield put(actions.fetchOrdersSuccess(fetchedOrders));
+  } catch (error) {
+    yield put(actions.fetchOrdersFail());
+  }
+}
+
+export function* removeOrderSaga(action) {
+  yield put(actions.removeOrderStart());
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  try {
+    // eslint-disable-next-line
+    const reponse = yield axios.delete(
+      `/orders/${action.orderId}.json?auth=${token}`
+    );
+
+    yield put(actions.fetchOrders(token, userId));
+  } catch (error) {
+    yield put(actions.removeOrderFail());
+  }
+}
