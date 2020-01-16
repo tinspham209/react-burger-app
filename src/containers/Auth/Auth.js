@@ -9,42 +9,42 @@ import * as actions from "../../store/actions/index";
 import { updateObject, checkValidity } from "../../shared/utility";
 const auth = props => {
   const [authForm, setAuthForm] = useState({
-      email: {
-        elementType: "input",
-        elementConfig: {
-          type: "email",
-          placeholder: "Mail Address"
-        },
-        value: "",
-        validation: {
-          required: true,
-          isEmail: true
-        },
-        valid: false,
-        touched: false
+    email: {
+      elementType: "input",
+      elementConfig: {
+        type: "email",
+        placeholder: "Mail Address"
       },
-      password: {
-        elementType: "input",
-        elementConfig: {
-          type: "password",
-          placeholder: "Password"
-        },
-        value: "",
-        validation: {
-          required: true,
-          minLength: 6
-        },
-        valid: false,
-        touched: false
-      }
-    })
-    const [isSignup, setIsSignup] = useState(true);
-
-  useEffect(() => {
-    if (props.buildingBurger && props.authRedirectPath !== "/") {
-      props.onSetAuthRedirectPath();
+      value: "",
+      validation: {
+        required: true,
+        isEmail: true
+      },
+      valid: false,
+      touched: false
+    },
+    password: {
+      elementType: "input",
+      elementConfig: {
+        type: "password",
+        placeholder: "Password"
+      },
+      value: "",
+      validation: {
+        required: true,
+        minLength: 6
+      },
+      valid: false,
+      touched: false
     }
-  }, []);
+  });
+  const [isSignup, setIsSignup] = useState(true);
+  const { buildingBurger, authRedirectPath, onSetAuthRedirectPath } = props;
+  useEffect(() => {
+    if (buildingBurger && authRedirectPath !== "/") {
+      onSetAuthRedirectPath();
+    }
+  }, [buildingBurger, authRedirectPath, onSetAuthRedirectPath]);
 
   const inputChangedHandler = (event, controlName) => {
     const updatedControls = updateObject(authForm, {
@@ -62,69 +62,65 @@ const auth = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    props.onAuth(
-      authForm.email.value,
-      authForm.password.value,
-      isSignup
-    );
+    props.onAuth(authForm.email.value, authForm.password.value, isSignup);
   };
 
   const switchAuthModeHandler = () => {
     setIsSignup(!isSignup);
   };
 
-    const formElementsArray = [];
-    for (let key in authForm) {
-      formElementsArray.push({
-        id: key,
-        config: authForm[key]
-      });
-    }
+  const formElementsArray = [];
+  for (let key in authForm) {
+    formElementsArray.push({
+      id: key,
+      config: authForm[key]
+    });
+  }
 
-    let form = formElementsArray.map(formElement => (
-      <Input
-        key={formElement.id}
-        elementType={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.valid}
-        shouldValidate={formElement.config.validation}
-        touched={formElement.config.touched}
-        changed={event => inputChangedHandler(event, formElement.id)}
-      />
-    ));
+  let form = formElementsArray.map(formElement => (
+    <Input
+      key={formElement.id}
+      elementType={formElement.config.elementType}
+      elementConfig={formElement.config.elementConfig}
+      value={formElement.config.value}
+      invalid={!formElement.config.valid}
+      shouldValidate={formElement.config.validation}
+      touched={formElement.config.touched}
+      changed={event => inputChangedHandler(event, formElement.id)}
+    />
+  ));
 
-    if (props.loading) {
-      form = <Spinner />;
-    }
+  if (props.loading) {
+    form = <Spinner />;
+  }
 
-    let errorMessage = null;
+  let errorMessage = null;
 
-    if (props.error) {
-      if (props.error.message === "EMAIL_NOT_FOUND") {
-        errorMessage = <p>EMAIL NOT FOUND</p>;
-      } else if (props.error.message === "INVALID_PASSWORD") {
-        errorMessage = <p>INVALID PASSWORD</p>;
-      }
+  if (props.error) {
+    if (props.error.message === "EMAIL_NOT_FOUND") {
+      errorMessage = <p>EMAIL NOT FOUND</p>;
+    } else if (props.error.message === "INVALID_PASSWORD") {
+      errorMessage = <p>INVALID PASSWORD</p>;
     }
-    let authRedirect = null;
-    if (props.isAuthenticated) {
-      authRedirect = <Redirect to={props.authRedirectPath} />;
-    }
-    return (
-      <div className={classes.Auth}>
-        {authRedirect}
-        {errorMessage}
-        <form onSubmit={submitHandler}>
-          {form}
-          <Button btnType="Success">Submit</Button>
-        </form>
-        <Button clicked={switchAuthModeHandler} btnType="Danger">
-          Switch to {isSignup ? "Sign in" : "Sign up"}
-        </Button>
-      </div>
-    );
-}
+  }
+  let authRedirect = null;
+  if (props.isAuthenticated) {
+    authRedirect = <Redirect to={props.authRedirectPath} />;
+  }
+  return (
+    <div className={classes.Auth}>
+      {authRedirect}
+      {errorMessage}
+      <form onSubmit={submitHandler}>
+        {form}
+        <Button btnType="Success">Submit</Button>
+      </form>
+      <Button clicked={switchAuthModeHandler} btnType="Danger">
+        Switch to {isSignup ? "Sign in" : "Sign up"}
+      </Button>
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   return {
